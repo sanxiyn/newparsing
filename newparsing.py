@@ -46,3 +46,16 @@ class Forward(Parser):
 
     def __lshift__(self, parser):
         self.parser = parser
+        self.isNullable_called = False
+        self.isNullable_value = False
+
+    def isNullable(self):
+        if self.isNullable_called:
+            return self.isNullable_value
+        self.isNullable_called = True
+        while True:
+            value = self.parser.isNullable()
+            if self.isNullable_value == value:
+                break
+            self.isNullable_value = value
+        return value

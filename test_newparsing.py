@@ -50,3 +50,8 @@ def test_Or_isNullable():
     assert empty_or_null.isNullable()
     assert null_or_empty.isNullable()
     assert null_or_null.isNullable()
+
+def test_Forward_isNullable():
+    x = Forward()
+    x << Or(x, null)
+    assert x.isNullable()
