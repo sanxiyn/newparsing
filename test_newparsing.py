@@ -78,3 +78,10 @@ def test_Forward_isEmpty():
     assert x.isEmpty()
     x << (x | null)
     assert not x.isEmpty()
+
+def test_parse():
+    alist = Forward()
+    alist << (
+        a + alist >> (lambda (a, b): [a] + b) |
+        null >> (lambda a: []))
+    assert alist.parse('aaaa') == [['a', 'a', 'a', 'a']]

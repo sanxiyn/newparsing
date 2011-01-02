@@ -9,6 +9,15 @@ class Parser(object):
     def __or__(self, other):
         return Or(self, other)
 
+    def __rshift__(self, action):
+        return Action(self, action)
+
+    def parse(self, stream):
+        parser = self
+        for token in stream:
+            parser = parser.derive(token)
+        return parser.parseNull()
+
 class Empty(Parser):
 
     def isNullable(self):
@@ -121,7 +130,24 @@ class Or(Parser):
 
 class Action(Parser):
 
-    pass
+    def __init__(self, parser, action):
+        self.parser = parser
+        self.action = action
+
+    def isNullable(self):
+        return self.parser.isNullable()
+
+    def isEmpty(self):
+        return self.parser.isEmpty()
+
+    def parseNull(self):
+        result = []
+        for a in self.parser.parseNull():
+            result.append(self.action(a))
+        return result
+
+    def derive(self, token):
+        return self.parser.derive(token) >> self.action
 
 class Forward(Parser):
 
