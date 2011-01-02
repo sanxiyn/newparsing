@@ -53,6 +53,8 @@ def test_Or_isNullable():
 
 def test_Forward_isNullable():
     x = Forward()
+    x << Or(x, empty)
+    assert not x.isNullable()
     x << Or(x, null)
     assert x.isNullable()
 
@@ -73,3 +75,10 @@ def test_Or_isEmpty():
     assert not empty_or_null.isEmpty()
     assert not null_or_empty.isEmpty()
     assert not null_or_null.isEmpty()
+
+def test_Forward_isEmpty():
+    x = Forward()
+    x << Or(x, empty)
+    assert x.isEmpty()
+    x << Or(x, null)
+    assert not x.isEmpty()

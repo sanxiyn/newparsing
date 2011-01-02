@@ -63,6 +63,8 @@ class Forward(Parser):
         self.parser = parser
         self.isNullable_called = False
         self.isNullable_value = False
+        self.isEmpty_called = False
+        self.isEmpty_value = True
 
     def isNullable(self):
         if self.isNullable_called:
@@ -74,3 +76,15 @@ class Forward(Parser):
                 break
             self.isNullable_value = value
         return value
+
+    def isEmpty(self):
+        if self.isEmpty_called:
+            return self.isEmpty_value
+        self.isEmpty_called = True
+        while True:
+            value = self.parser.isEmpty()
+            if self.isEmpty_value == value:
+                break
+            self.isEmpty_value = value
+        return value
+
