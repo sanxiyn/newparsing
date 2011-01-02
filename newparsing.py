@@ -7,10 +7,16 @@ class Empty(Parser):
     def isNullable(self):
         return False
 
+    def isEmpty(self):
+        return True
+
 class Null(Parser):
 
     def isNullable(self):
         return True
+
+    def isEmpty(self):
+        return False
 
 class Token(Parser):
 
@@ -18,6 +24,9 @@ class Token(Parser):
         self.token = token
 
     def isNullable(self):
+        return False
+
+    def isEmpty(self):
         return False
 
 class And(Parser):
@@ -29,6 +38,9 @@ class And(Parser):
     def isNullable(self):
         return self.first.isNullable() and self.second.isNullable()
 
+    def isEmpty(self):
+        return self.first.isEmpty() or self.second.isEmpty()
+
 class Or(Parser):
 
     def __init__(self, first, second):
@@ -37,6 +49,9 @@ class Or(Parser):
 
     def isNullable(self):
         return self.first.isNullable() or self.second.isNullable()
+
+    def isEmpty(self):
+        return self.first.isEmpty() and self.second.isEmpty()
 
 class Action(Parser):
 
