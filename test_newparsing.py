@@ -85,3 +85,13 @@ def test_parse():
         a + alist >> (lambda (a, b): [a] + b) |
         null >> (lambda a: []))
     assert alist.parse('aaaa') == [['a', 'a', 'a', 'a']]
+
+    vs = Forward()
+    l = Token('(') + vs + Token(')') >> (lambda ((a, b), c): b)
+    v = a | l
+    vs << (
+        v + vs >> (lambda (a, b): [a] + b) |
+        null >> (lambda a: []))
+    assert l.parse('()') == [[]]
+    assert l.parse('(a)') == [['a']]
+    assert l.parse('(a(a))') == [['a', ['a']]]
