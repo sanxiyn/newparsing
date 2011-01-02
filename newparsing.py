@@ -1,4 +1,5 @@
-__all__ = ['Empty', 'Null', 'Token', 'And', 'Or', 'Action', 'Forward']
+__all__ = ['Empty', 'Null', 'Token', 'And', 'Or', 'Action', 'Forward',
+    'empty', 'null']
 
 class Parser(object):
 
@@ -16,6 +17,8 @@ class Empty(Parser):
     def isEmpty(self):
         return True
 
+empty = Empty()
+
 class Null(Parser):
 
     def isNullable(self):
@@ -23,6 +26,8 @@ class Null(Parser):
 
     def isEmpty(self):
         return False
+
+null = Null()
 
 class Token(Parser):
 

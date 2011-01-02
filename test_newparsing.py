@@ -24,16 +24,14 @@ def test_syntax():
     a | b
     x << x
 
-empty = Empty()
-null = Null()
-empty_and_empty = And(empty, empty)
-empty_and_null = And(empty, null)
-null_and_empty = And(null, empty)
-null_and_null = And(null, null)
-empty_or_empty = Or(empty, empty)
-empty_or_null = Or(empty, null)
-null_or_empty = Or(null, empty)
-null_or_null = Or(null, null)
+empty_and_empty = empty + empty
+empty_and_null = empty + null
+null_and_empty = null + empty
+null_and_null = null + null
+empty_or_empty = empty | empty
+empty_or_null = empty | null
+null_or_empty = null | empty
+null_or_null = null | null
 
 def test_isNullable():
     assert not empty.isNullable()
@@ -53,9 +51,9 @@ def test_Or_isNullable():
     assert null_or_null.isNullable()
 
 def test_Forward_isNullable():
-    x << Or(x, empty)
+    x << (x | empty)
     assert not x.isNullable()
-    x << Or(x, null)
+    x << (x | null)
     assert x.isNullable()
 
 def test_isEmpty():
@@ -76,7 +74,7 @@ def test_Or_isEmpty():
     assert not null_or_null.isEmpty()
 
 def test_Forward_isEmpty():
-    x << Or(x, empty)
+    x << (x | empty)
     assert x.isEmpty()
-    x << Or(x, null)
+    x << (x | null)
     assert not x.isEmpty()
