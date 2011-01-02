@@ -30,3 +30,8 @@ class Or(Parser):
 class Action(Parser):
 
     pass
+
+class Forward(Parser):
+
+    def __lshift__(self, parser):
+        self.parser = parser

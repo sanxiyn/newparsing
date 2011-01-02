@@ -16,3 +16,8 @@ def test_constructor():
     b = Token('b')
     And(a, b)
     Or(a, b)
+
+def test_recursive():
+    a = Token('a')
+    alist = Forward()
+    alist << Or(And(a, alist), Null())
