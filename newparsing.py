@@ -12,15 +12,20 @@ class Null(Parser):
 
 class Token(Parser):
 
-    pass
+    def __init__(self, token):
+        self.token = token
 
 class And(Parser):
 
-    pass
+    def __init__(self, first, second):
+        self.first = first
+        self.second = second
 
 class Or(Parser):
 
-    pass
+    def __init__(self, first, second):
+        self.first = first
+        self.second = second
 
 class Action(Parser):
 
