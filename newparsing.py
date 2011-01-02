@@ -1,6 +1,10 @@
 class Parser(object):
 
-    pass
+    def __add__(self, other):
+        return And(self, other)
+
+    def __or__(self, other):
+        return Or(self, other)
 
 class Empty(Parser):
 

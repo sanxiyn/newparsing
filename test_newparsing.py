@@ -8,19 +8,22 @@ def test_class():
     And
     Or
     Action
+    Forward
+
+a = Token('a')
+b = Token('b')
+x = Forward()
 
 def test_constructor():
     Empty()
     Null()
-    a = Token('a')
-    b = Token('b')
     And(a, b)
     Or(a, b)
 
-def test_recursive():
-    a = Token('a')
-    alist = Forward()
-    alist << Or(And(a, alist), Null())
+def test_syntax():
+    a + b
+    a | b
+    x << x
 
 empty = Empty()
 null = Null()
@@ -34,7 +37,6 @@ null_or_empty = Or(null, empty)
 null_or_null = Or(null, null)
 
 def test_isNullable():
-    a = Token('a')
     assert not empty.isNullable()
     assert null.isNullable()
     assert not a.isNullable()
@@ -52,14 +54,12 @@ def test_Or_isNullable():
     assert null_or_null.isNullable()
 
 def test_Forward_isNullable():
-    x = Forward()
     x << Or(x, empty)
     assert not x.isNullable()
     x << Or(x, null)
     assert x.isNullable()
 
 def test_isEmpty():
-    a = Token('a')
     assert empty.isEmpty()
     assert not null.isEmpty()
     assert not a.isEmpty()
@@ -77,7 +77,6 @@ def test_Or_isEmpty():
     assert not null_or_null.isEmpty()
 
 def test_Forward_isEmpty():
-    x = Forward()
     x << Or(x, empty)
     assert x.isEmpty()
     x << Or(x, null)
